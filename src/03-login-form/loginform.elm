@@ -23,18 +23,20 @@ type alias Model =
     { name : String
     , password : String
     , passwordAgain : String
+    , age : String
     }
 
 
 init : Model
 init =
-    Model "" "" ""
+    Model "" "" "" ""
 
 
 type Msg
     = Name String
     | Password String
     | PasswordAgain String
+    | Age String
 
 
 update : Msg -> Model -> Model
@@ -49,6 +51,9 @@ update msg model =
         PasswordAgain password ->
             { model | passwordAgain = password }
 
+        Age age ->
+            { model | age = age }
+
 
 view : Model -> Html Msg
 view model =
@@ -59,6 +64,7 @@ view model =
             "Re-enter Password"
             model.passwordAgain
             PasswordAgain
+        , viewInput "age" "Age" model.age Age
         , viewValidation model
         ]
 
@@ -70,6 +76,16 @@ viewInput t p v toMsg =
 
 viewValidation : Model -> Html msg
 viewValidation model =
+    div []
+        [ br [] []
+        , viewPasswordValidation model
+        , br [] []
+        , viewAgeValidation model
+        ]
+
+
+viewPasswordValidation : Model -> Html msg
+viewPasswordValidation model =
     if model.password /= model.passwordAgain then
         div [ style "color" "red" ] [ text "Passwords do not match!" ]
 
@@ -83,7 +99,21 @@ viewValidation model =
             ]
 
     else
-        div [ style "color" "green" ] [ text "OK" ]
+        div [ style "color" "green" ] [ text "Password is OK" ]
+
+
+viewAgeValidation : Model -> Html msg
+viewAgeValidation model =
+    case String.toInt <| String.trim model.age of
+        Nothing ->
+            div [ style "color" "red" ] [ text "Age is not a number!" ]
+
+        Just n ->
+            if n < 0 then
+                div [ style "color" "red" ] [ text "Age is below 0!" ]
+
+            else
+                div [ style "color" "green" ] [ text "Age is OK" ]
 
 
 passesPasswordPolicy : String -> Bool
