@@ -12,7 +12,7 @@ module Main exposing
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput, onSubmit)
 
 
 main =
@@ -24,12 +24,13 @@ type alias Model =
     , password : String
     , passwordAgain : String
     , age : String
+    , validationMessage : Html Msg
     }
 
 
 init : Model
 init =
-    Model "" "" "" ""
+    Model "" "" "" "" <| div [] []
 
 
 type Msg
@@ -37,6 +38,7 @@ type Msg
     | Password String
     | PasswordAgain String
     | Age String
+    | Submit
 
 
 update : Msg -> Model -> Model
@@ -54,6 +56,9 @@ update msg model =
         Age age ->
             { model | age = age }
 
+        Submit ->
+            { model | validationMessage = viewValidation model }
+
 
 view : Model -> Html Msg
 view model =
@@ -65,11 +70,12 @@ view model =
             model.passwordAgain
             PasswordAgain
         , viewInput "age" "Age" model.age Age
-        , viewValidation model
+        , model.validationMessage
+        , button [ onClick Submit ] [ text "Submit" ]
         ]
 
 
-viewInput : String -> String -> String -> (String -> msg) -> Html msg
+viewInput : String -> String -> String -> (String -> Msg) -> Html Msg
 viewInput t p v toMsg =
     input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
@@ -81,6 +87,7 @@ viewValidation model =
         , viewPasswordValidation model
         , br [] []
         , viewAgeValidation model
+        , br [] []
         ]
 
 
