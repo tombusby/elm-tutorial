@@ -39,5 +39,6 @@ view model =
             , onInput Change
             ]
             []
-        , div [] [ text (String.reverse model.content) ]
+        , div [] [ text <| String.reverse model.content ]
+        , div [] [ text << String.fromInt <| String.length model.content ]
         ]
