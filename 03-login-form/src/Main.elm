@@ -126,7 +126,10 @@ viewAgeValidation model =
 passesPasswordPolicy : String -> Bool
 passesPasswordPolicy password =
     let
+        flip f a b =
+            f b a
+
         filters =
             [ Char.isUpper, Char.isLower, Char.isDigit ]
     in
-    List.all (\f -> String.any f password) filters
+    List.all (flip String.any password) filters
