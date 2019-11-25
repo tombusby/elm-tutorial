@@ -128,8 +128,5 @@ passesPasswordPolicy password =
     let
         filters =
             [ Char.isUpper, Char.isLower, Char.isDigit ]
-
-        parts =
-            List.map (\f -> String.filter f password) filters
     in
-    List.all (not << String.isEmpty) parts
+    List.all (\f -> String.any f password) filters
