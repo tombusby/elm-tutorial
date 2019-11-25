@@ -9,6 +9,7 @@ module Main exposing
     , viewValidation
     )
 
+import Basics.Extra exposing (flip)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -126,9 +127,6 @@ viewAgeValidation model =
 passesPasswordPolicy : String -> Bool
 passesPasswordPolicy password =
     let
-        flip f a b =
-            f b a
-
         filters =
             [ Char.isUpper, Char.isLower, Char.isDigit ]
     in
