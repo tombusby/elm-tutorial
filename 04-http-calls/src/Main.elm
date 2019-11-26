@@ -1,4 +1,4 @@
-module Main exposing (Model(..), Msg(..), init, main, subscriptions, update, view)
+module Main exposing (main)
 
 import Browser
 import Html exposing (Html, pre, text)
@@ -24,7 +24,10 @@ init : () -> ( Model, Cmd Msg )
 init _ =
     ( Loading
     , Http.get
-        { url = "https://elm-lang.org/assets/public-opinion.txt"
+        { url =
+            "https://gist.githubusercontent.com/tombusby/"
+                ++ "613ee78eb5c3bcf01844f0b982f50c88/raw/"
+                ++ "2e4e532e51fab869b5f12b07556364be1b673962/personnummer.rb"
         , expect = Http.expectString GotText
         }
     )
