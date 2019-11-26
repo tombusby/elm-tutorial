@@ -1,13 +1,4 @@
-module Main exposing
-    ( Model
-    , Msg(..)
-    , init
-    , main
-    , update
-    , view
-    , viewInput
-    , viewValidation
-    )
+module Main exposing (main)
 
 import Basics.Extra exposing (flip)
 import Browser
